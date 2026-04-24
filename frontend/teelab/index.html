@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeeLab | Atelier de Confección</title>
+    <link rel="icon" type="image/x-icon" href="/frontend/teelab/img/TeeLabLogo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="irAVistaCatalogo()" style="cursor:pointer">TeeLab</div>
+        <div class="nav-links">
+            <a href="javascript:void(0)" onclick="irAVistaCatalogo()">Colección</a>
+            <a href="javascript:void(0)" onclick="irAVistaTickets()">Seguimiento</a>
+        </div>
+        <button class="btn-cart" onclick="toggleCart()">Bolsa (<span id="cart-count">0</span>)</button>
+    </nav>
+
+    <header class="parallax-hero" id="hero-principal">
+        <div class="hero-content">
+            <h1>La esencia del detalle.</h1>
+            <p>Piezas exclusivas para el entorno profesional.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="vista-catalogo">
+            <h2 class="section-title">La Colección</h2>
+
+            <div class="filtros-bar">
+                <input type="text" id="filter-q" placeholder="Buscar..." onkeyup="aplicarFiltrosDebounced()">
+                <select id="filter-sort" onchange="aplicarFiltros()">
+                    <option value="">Ordenar por...</option>
+                    <option value="precio_asc">Precio: Bajo a Alto</option>
+                    <option value="precio_desc">Precio: Alto a Bajo</option>
+                    <option value="nombre_asc">Nombre: A - Z</option>
+                    <option value="nombre_desc">Nombre: Z - A</option>
+                </select>
+                <select id="filter-talla" onchange="aplicarFiltros()">
+                    <option value="">Talla</option>
+                </select>
+                <select id="filter-color" onchange="aplicarFiltros()">
+                    <option value="">Color</option>
+                </select>
+                <select id="filter-tags" onchange="aplicarFiltros()">
+                    <option value="">Colección</option>
+                </select>
+                <button class="btn-outline" onclick="limpiarFiltros()">Limpiar</button>
+            </div>
+
+            <div id="contenedor-camisetas" class="catalogo-grid"></div>
+        </section>
+
+        <section id="vista-tickets" class="hidden">
+            <div class="back-link" onclick="irAVistaCatalogo()">
+                <span>← Volver al Catálogo</span>
+            </div>
+
+            <div class="tracking-dashboard">
+                <div class="search-section">
+                    <div class="search-header">
+                        <h2 class="section-title">Seguimiento</h2>
+                        <p class="search-subtitle">Consulte el estado de su pedido con su número de referencia.</p>
+                    </div>
+                    <div class="search-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="search-ticket-input" placeholder="Ej: ORD-0001">
+                            <span class="input-focus-line"></span>
+                        </div>
+                        <button class="btn-solid" onclick="buscarTicketDinamico()">Rastrear</button>
+                    </div>
+                </div>
+
+                <div id="resultado-ticket" class="results-section">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="cart-overlay" class="overlay hidden">
+        <div class="cart-panel">
+            <button class="close-btn" onclick="toggleCart()"></button>
+            <h2>Tu Selección</h2>
+            <div id="cart-items" class="cart-items-container">
+            </div>
+            <div class="cart-footer">
+                <h3>Total: <span id="cart-total">0.00</span>€</h3>
+                <div class="cart-actions">
+                    <button class="btn-outline" onclick="vaciarCarrito()">Limpiar</button>
+                    <button class="btn-solid" onclick="abrirCheckout()">Finalizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-overlay" class="overlay-full hidden">
+        <div class="checkout-modal">
+            <button class="close-btn" onclick="cerrarCheckout()"></button>
+            <h2>Finalizar Compra</h2>
+            <form id="checkout-form" onsubmit="procesarPago(event)">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="chk-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="chk-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Calle y Número</label>
+                    <input type="text" id="chk-calle" required>
+                </div>
+                <div class="form-group">
+                    <label>Código Postal</label>
+                    <input type="text" id="chk-cp" required>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <input type="text" id="chk-ciudad" required>
+                </div>
+                <button type="submit" class="btn-solid wide">Confirmar Pedido</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+  if (!window.location.pathname.endsWith('/teelab')) {
+    window.history.replaceState({}, '', '/frontend/teelab');
+  }
+</script>
+</body>
+
+</html>
