@@ -5,7 +5,7 @@ Plataforma completa para gestionar un catálogo de camisetas y órdenes de pedid
 
 ---
 
-## 1. Estructura del proyecto
+## 1. Estructura del proyecto (Single Page App)
 
 ```text
 .
